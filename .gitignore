@@ -5,6 +5,15 @@
 *.so
 *.dylib
 
+# Mac
+.DC_Store
+
+# Binaries
+/app/services/service-api/service-api
+/app/services/metrics/metrics
+/app/tooling/logfmt
+/app/tooling/service-admin
+
 # Test binary, built with `go test -c`
 *.test
 
@@ -15,3 +24,5 @@
 # vendor/
 
 .idea
+
+

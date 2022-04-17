@@ -23,4 +23,4 @@ spec:
       containers:
         # service-api container configuration
         - name: service-api
-          image: service-amd64:1.0
+          image: service-api-image

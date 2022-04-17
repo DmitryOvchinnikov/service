@@ -7,12 +7,12 @@ run:
 
 VERSION := 1.0
 
-all: service
+all: service-api
 
-service:
+service-api:
 	docker build \
-		-f zarf/docker/dockerfile \
-		-t service-amd64:$(VERSION) \
+		-f zarf/docker/dockerfile.service-api \
+		-t service-api-amd64:$(VERSION) \
 		--build-arg BUILD_REF=$(VERSION) \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		.
@@ -32,7 +32,8 @@ kind-down:
 	kind delete cluster --name $(KIND_CLUSTER)
 
 kind-load:
-	kind load docker-image service-amd64:$(VERSION) --name $(KIND_CLUSTER)
+	cd zarf/k8s/kind/service-pod; kustomize edit set image service-api-image=service-api-amd64:$(VERSION)
+	kind load docker-image service-api-amd64:$(VERSION) --name $(KIND_CLUSTER)
 
 kind-apply:
 	kustomize build zarf/k8s/kind/service-pod | kubectl apply -f -
