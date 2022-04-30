@@ -12,6 +12,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers"
 	"github.com/dmitryovchinnikov/service/foundation/logger"
 	"go.uber.org/automaxprocs/maxprocs"
 
@@ -24,7 +25,8 @@ import (
 	todo: Need to figure out timeouts for http service.
 */
 
-// build is the git version of this program. It is set using build flags in the makefile.
+// build is the git version of this program.
+//It is set using build flags in the makefile.
 var build = "develop"
 
 func main() {
@@ -47,7 +49,9 @@ func main() {
 
 func run(log *zap.SugaredLogger) error {
 
-	// GOMAXPROCS
+	/*
+		GOMAXPROCS
+	*/
 
 	// Want to see what maxprocs reports.
 	opt := maxprocs.Logger(log.Infof)
@@ -59,7 +63,9 @@ func run(log *zap.SugaredLogger) error {
 	}
 	log.Infow("startup", "GOMAXPROCS", runtime.GOMAXPROCS(0))
 
-	// Configuration
+	/*
+		Configuration
+	*/
 
 	cfg := struct {
 		conf.Version
@@ -88,7 +94,11 @@ func run(log *zap.SugaredLogger) error {
 		return fmt.Errorf("parsing config: %w", err)
 	}
 
-	// App Starting
+	//Shutdown(context.Background())
+
+	/*
+		App Starting
+	*/
 
 	log.Infow("starting service", "version", build)
 	defer log.Infow("shutdown complete")
@@ -101,7 +111,29 @@ func run(log *zap.SugaredLogger) error {
 
 	expvar.NewString("build").Set(build)
 
-	// Start API Service
+	/*
+		Start Debug Service
+	*/
+
+	log.Infow("startup", "status", "debug v1 router started", "host", cfg.Web.DebugHost)
+
+	// The Debug function returns a mux to listen and serve on for all the debug
+	// related endpoints. This includes the standard library endpoints.
+
+	// Construct the mux for the debug calls.
+	debugMux := handlers.DebugStandardLibraryMux()
+
+	// Start the service listening for debug requests.
+	// Not concerned with shutting this down with load shedding.
+	go func() {
+		if err := http.ListenAndServe(cfg.Web.DebugHost, debugMux); err != nil {
+			log.Errorw("shutdown", "status", "debug v1 router closed", "host", cfg.Web.DebugHost, "ERROR", err)
+		}
+	}()
+
+	/*
+		Start API Service
+	*/
 
 	log.Infow("startup", "status", "initializing V1 API support")
 
@@ -113,6 +145,7 @@ func run(log *zap.SugaredLogger) error {
 	// Construct a server to service the requests against the mux.
 	api := http.Server{
 		Addr:         cfg.Web.APIHost,
+		Handler:      nil,
 		ReadTimeout:  cfg.Web.ReadTimeout,
 		WriteTimeout: cfg.Web.WriteTimeout,
 		IdleTimeout:  cfg.Web.IdleTimeout,
@@ -129,7 +162,9 @@ func run(log *zap.SugaredLogger) error {
 		serverErrors <- api.ListenAndServe()
 	}()
 
-	// Shutdown
+	/*
+		Shutdown
+	*/
 
 	// Blocking main and waiting for shutdown.
 	select {
