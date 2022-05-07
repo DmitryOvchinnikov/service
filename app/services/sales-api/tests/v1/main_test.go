@@ -3,6 +3,9 @@ package tests
 import (
 	"fmt"
 	"testing"
+
+	"github.com/dmitryovchinnikov/service/business/data/dbtest"
+	"github.com/dmitryovchinnikov/service/foundation/docker"
 )
 
 var c *docker.Container

@@ -9,6 +9,11 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers"
+	"github.com/dmitryovchinnikov/service/business/core/product"
+	"github.com/dmitryovchinnikov/service/business/data/dbtest"
+	"github.com/dmitryovchinnikov/service/business/sys/validate"
+	v1Web "github.com/dmitryovchinnikov/service/business/web/v1"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 )
@@ -24,7 +29,7 @@ type ProductTests struct {
 // TestProducts runs a series of tests to exercise Product behavior from the
 // API level. The subtests all share the same database and application for
 // speed and convenience. The downside is the order the tests are ran matters
-// and one test may break if other tests are not ran before it. If a particular
+// and one dbtest may break if other tests are not ran before it. If a particular
 // subtest needs a fresh instance of the application it can make it or it
 // should be its own Test* function.
 func TestProducts(t *testing.T) {
@@ -38,8 +43,8 @@ func TestProducts(t *testing.T) {
 		app: handlers.APIMux(handlers.APIMuxConfig{
 			Shutdown: shutdown,
 			Log:      test.Log,
-			Auth:     test.Auth,
-			DB:       test.DB,
+			//Auth:     test.Auth,
+			//DB:       test.DB,
 		}),
 		userToken: test.Token("admin@example.com", "gophers"),
 	}
@@ -264,7 +269,7 @@ func (pt *ProductTests) putProduct404(t *testing.T) {
 	}
 }
 
-// crudProduct performs a complete test of CRUD against the api.
+// crudProduct performs a complete dbtest of CRUD against the api.
 func (pt *ProductTests) crudProduct(t *testing.T) {
 	p := pt.postProduct201(t)
 	defer pt.deleteProduct204(t, p.ID)

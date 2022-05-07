@@ -7,6 +7,11 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/dmitryovchinnikov/service/business/core/user"
+	"github.com/dmitryovchinnikov/service/business/sys/auth"
+	v1Web "github.com/dmitryovchinnikov/service/business/web/v1"
+	"github.com/dmitryovchinnikov/service/foundation/web"
 )
 
 // Handlers manages the set of user endpoints.

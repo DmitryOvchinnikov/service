@@ -22,7 +22,7 @@ SHELL := /bin/bash
 # ./sales-admin genkey
 #
 # Testing coverage.
-# go test -coverprofile p.out
+# go dbtest -coverprofile p.out
 # go tool cover -html p.out
 #
 # Test debug endpoints.

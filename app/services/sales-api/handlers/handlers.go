@@ -80,7 +80,7 @@ func APIMux(cfg APIMuxConfig) *httptreemux.ContextMux {
 		json.NewEncoder(w).Encode(status)
 	}
 
-	mux.Handle(http.MethodGet, "/test", h)
+	mux.Handle(http.MethodGet, "/dbtest", h)
 
 	return mux
 }
