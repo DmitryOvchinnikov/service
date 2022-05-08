@@ -2,14 +2,14 @@
 package handlers
 
 import (
-	"encoding/json"
 	"expvar"
 	"net/http"
 	"net/http/pprof"
 	"os"
 
-	httptreemux "github.com/dimfeld/httptreemux/v5"
 	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/debug/checkgrp"
+	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/v1/testgrp"
+	"github.com/dmitryovchinnikov/service/foundation/web"
 	"go.uber.org/zap"
 )
 
@@ -17,7 +17,7 @@ import (
 //type Options struct {
 //	corsOrigin string
 //}
-
+//
 // WithCORS provides configuration options for CORS.
 //func WithCORS(origin string) func(opts *Options) {
 //	return func(opts *Options) {
@@ -34,7 +34,7 @@ type APIMuxConfig struct {
 }
 
 // APIMux constructs a http.Handler with all application routes defined.
-func APIMux(cfg APIMuxConfig) *httptreemux.ContextMux {
+func APIMux(cfg APIMuxConfig) *web.App {
 	//func APIMux(cfg APIMuxConfig, options ...func(opts *Options)) http.Handler {
 	//var opts Options
 	//for _, option := range options {
@@ -69,20 +69,12 @@ func APIMux(cfg APIMuxConfig) *httptreemux.ContextMux {
 	//
 	//return app
 
-	mux := httptreemux.NewContextMux()
+	app := web.NewApp(cfg.Shutdown)
 
-	h := func(w http.ResponseWriter, r *http.Request) {
-		status := struct {
-			Status string
-		}{
-			Status: "OK",
-		}
-		json.NewEncoder(w).Encode(status)
-	}
+	tgh := testgrp.Handlers{Log: cfg.Log}
+	app.Handle(http.MethodGet, "/v1/test", tgh.Test)
 
-	mux.Handle(http.MethodGet, "/test", h)
-
-	return mux
+	return app
 }
 
 // DebugStandardLibraryMux registers all the debug routes from the standard library
