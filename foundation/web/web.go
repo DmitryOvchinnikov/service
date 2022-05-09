@@ -20,12 +20,11 @@ type Handler func(ctx context.Context, w http.ResponseWriter, r *http.Request) e
 type App struct {
 	mux      *httptreemux.ContextMux
 	shutdown chan os.Signal
-	//mw       []Middleware
+	mw       []Middleware
 }
 
 // NewApp creates an App value that handle a set of routes for the application.
-func NewApp(shutdown chan os.Signal) *App {
-	//func NewApp(shutdown chan os.Signal, mw ...Middleware) *App {
+func NewApp(shutdown chan os.Signal, mw ...Middleware) *App {
 
 	// Create an OpenTelemetry HTTP Handler which wraps our router. This will start
 	// the initial span and annotate it with information about the request/response.
@@ -37,8 +36,9 @@ func NewApp(shutdown chan os.Signal) *App {
 	mux := httptreemux.NewContextMux()
 
 	return &App{
-		mux,
-		shutdown,
+		mux:      mux,
+		shutdown: shutdown,
+		mw:       mw,
 	}
 }
 
@@ -58,14 +58,13 @@ func (a *App) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Handle sets a handler function for a given HTTP method and path pair
 // to the application server mux.
-func (a *App) Handle(method string, path string, handler Handler) {
-	//func (a *App) Handle(method string, group string, path string, handler Handler, mw ...Middleware) {
+func (a *App) Handle(method string, group string, path string, handler Handler, mw ...Middleware) {
 
 	// First wrap handler specific middleware around this handler.
-	//handler = wrapMiddleware(mw, handler)
+	handler = wrapMiddleware(mw, handler)
 
 	// Add the application's general middleware to the handler chain.
-	//handler = wrapMiddleware(a.mw, handler)
+	handler = wrapMiddleware(a.mw, handler)
 
 	// The function to execute for each request.
 	h := func(w http.ResponseWriter, r *http.Request) {
@@ -93,8 +92,8 @@ func (a *App) Handle(method string, path string, handler Handler) {
 	}
 
 	finalPath := path
-	//if group != "" {
-	//	finalPath = "/" + group + path
-	//}
+	if group != "" {
+		finalPath = "/" + group + path
+	}
 	a.mux.Handle(method, finalPath, h)
 }
