@@ -9,6 +9,7 @@ import (
 
 	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/debug/checkgrp"
 	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/v1/testgrp"
+	"github.com/dmitryovchinnikov/service/business/web/v1/mid"
 	"github.com/dmitryovchinnikov/service/foundation/web"
 	"go.uber.org/zap"
 )
@@ -40,16 +41,16 @@ func APIMux(cfg APIMuxConfig) *web.App {
 	//for _, option := range options {
 	//	option(&opts)
 	//}
-	//
-	//// Construct the web.App which holds all routes as well as common Middleware.
-	//app := web.NewApp(
-	//	cfg.Shutdown,
-	//	mid.Logger(cfg.Log),
-	//	mid.Errors(cfg.Log),
-	//	mid.Metrics(),
-	//	mid.Panics(),
-	//)
-	//
+
+	// Construct the web.App which holds all routes as well as common Middleware.
+	app := web.NewApp(
+		cfg.Shutdown,
+		mid.Logger(cfg.Log),
+		//mid.Errors(cfg.Log),
+		//mid.Metrics(),
+		//mid.Panics(),
+	)
+
 	//// Accept CORS 'OPTIONS' preflight requests if config has been provided.
 	//// Don't forget to apply the CORS middleware to the routes that need it.
 	//// Example Config: `conf:"default:https://MY_DOMAIN.COM"`
@@ -68,8 +69,6 @@ func APIMux(cfg APIMuxConfig) *web.App {
 	//})
 	//
 	//return app
-
-	app := web.NewApp(cfg.Shutdown)
 
 	tgh := testgrp.Handlers{Log: cfg.Log}
 	app.Handle(http.MethodGet, "v1", "/test", tgh.Test)
