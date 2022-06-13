@@ -5,9 +5,16 @@ import (
 	"net/http"
 
 	"github.com/dmitryovchinnikov/service/business/sys/validate"
+<<<<<<< HEAD
 	v1Web "github.com/dmitryovchinnikov/service/business/web/v1"
 	"github.com/dmitryovchinnikov/service/foundation/web"
 	"go.uber.org/zap"
+=======
+	"github.com/dmitryovchinnikov/service/foundation/web"
+	"go.uber.org/zap"
+
+	v1Web "github.com/dmitryovchinnikov/service/business/web/v1"
+>>>>>>> 7-Middleware
 )
 
 // Errors handles errors coming out of the call chain. It detects normal

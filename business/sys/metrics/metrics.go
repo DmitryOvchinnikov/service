@@ -13,8 +13,11 @@ import (
 // isn't much choice here.
 var m *metrics
 
+<<<<<<< HEAD
 // =============================================================================
 
+=======
+>>>>>>> 7-Middleware
 // metrics represents the set of metrics we gather. These fields are
 // safe to be accessed concurrently thanks to expvar. No extra abstraction is required.
 type metrics struct {
@@ -37,9 +40,13 @@ func init() {
 	}
 }
 
+<<<<<<< HEAD
 // =============================================================================
 
 // Metrics will be supported through the context.
+=======
+//Metrics will be supported through the context.
+>>>>>>> 7-Middleware
 
 // ctxKeyMetric represents the type of value for the context key.
 type ctxKey int
@@ -47,8 +54,11 @@ type ctxKey int
 // key is how metric values are stored/retrieved.
 const key ctxKey = 1
 
+<<<<<<< HEAD
 // =============================================================================
 
+=======
+>>>>>>> 7-Middleware
 // Set sets the metrics data into the context.
 func Set(ctx context.Context) context.Context {
 	return context.WithValue(ctx, key, m)

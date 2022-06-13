@@ -23,7 +23,12 @@ func Logger(log *zap.SugaredLogger) web.Middleware {
 			// to be shutdown gracefully.
 			v, err := web.GetValues(ctx)
 			if err != nil {
+<<<<<<< HEAD
 				return web.NewShutdownError("web value missing from context")
+=======
+				return err
+				//return web.NewShutdownError("web value missing from context")
+>>>>>>> 7-Middleware
 			}
 
 			log.Infow("request started", "traceid", v.TraceID, "method", r.Method, "path", r.URL.Path,
@@ -35,7 +40,11 @@ func Logger(log *zap.SugaredLogger) web.Middleware {
 			log.Infow("request completed", "traceid", v.TraceID, "method", r.Method, "path", r.URL.Path,
 				"remoteaddr", r.RemoteAddr, "statuscode", v.StatusCode, "since", time.Since(v.Now))
 
+<<<<<<< HEAD
 			// Return the error so it can be handled further up the chain.
+=======
+			// Return the error, so it can be handled further up the chain.
+>>>>>>> 7-Middleware
 			return err
 		}
 

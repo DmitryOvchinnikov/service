@@ -2,14 +2,15 @@
 package handlers
 
 import (
-	"encoding/json"
 	"expvar"
 	"net/http"
 	"net/http/pprof"
 	"os"
 
-	httptreemux "github.com/dimfeld/httptreemux/v5"
 	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/debug/checkgrp"
+	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/v1/testgrp"
+	"github.com/dmitryovchinnikov/service/business/web/v1/mid"
+	"github.com/dmitryovchinnikov/service/foundation/web"
 	"go.uber.org/zap"
 )
 
@@ -17,7 +18,7 @@ import (
 //type Options struct {
 //	corsOrigin string
 //}
-
+//
 // WithCORS provides configuration options for CORS.
 //func WithCORS(origin string) func(opts *Options) {
 //	return func(opts *Options) {
@@ -34,22 +35,22 @@ type APIMuxConfig struct {
 }
 
 // APIMux constructs a http.Handler with all application routes defined.
-func APIMux(cfg APIMuxConfig) *httptreemux.ContextMux {
+func APIMux(cfg APIMuxConfig) *web.App {
 	//func APIMux(cfg APIMuxConfig, options ...func(opts *Options)) http.Handler {
 	//var opts Options
 	//for _, option := range options {
 	//	option(&opts)
 	//}
-	//
-	//// Construct the web.App which holds all routes as well as common Middleware.
-	//app := web.NewApp(
-	//	cfg.Shutdown,
-	//	mid.Logger(cfg.Log),
-	//	mid.Errors(cfg.Log),
-	//	mid.Metrics(),
-	//	mid.Panics(),
-	//)
-	//
+
+	// Construct the web.App which holds all routes as well as common Middleware.
+	app := web.NewApp(
+		cfg.Shutdown,
+		mid.Logger(cfg.Log),
+		mid.Errors(cfg.Log),
+		mid.Metrics(),
+		mid.Panics(),
+	)
+
 	//// Accept CORS 'OPTIONS' preflight requests if config has been provided.
 	//// Don't forget to apply the CORS middleware to the routes that need it.
 	//// Example Config: `conf:"default:https://MY_DOMAIN.COM"`
@@ -69,8 +70,10 @@ func APIMux(cfg APIMuxConfig) *httptreemux.ContextMux {
 	//
 	//return app
 
-	mux := httptreemux.NewContextMux()
+	tgh := testgrp.Handlers{Log: cfg.Log}
+	app.Handle(http.MethodGet, "v1", "/test", tgh.Test)
 
+<<<<<<< HEAD
 	h := func(w http.ResponseWriter, r *http.Request) {
 		status := struct {
 			Status string
@@ -83,6 +86,9 @@ func APIMux(cfg APIMuxConfig) *httptreemux.ContextMux {
 	mux.Handle(http.MethodGet, "/dbtest", h)
 
 	return mux
+=======
+	return app
+>>>>>>> 7-Middleware
 }
 
 // DebugStandardLibraryMux registers all the debug routes from the standard library
