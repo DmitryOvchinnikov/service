@@ -48,7 +48,7 @@ func APIMux(cfg APIMuxConfig) *web.App {
 		mid.Logger(cfg.Log),
 		mid.Errors(cfg.Log),
 		//mid.Metrics(),
-		//mid.Panics(),
+		mid.Panics(),
 	)
 
 	//// Accept CORS 'OPTIONS' preflight requests if config has been provided.
