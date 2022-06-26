@@ -3,7 +3,7 @@ SHELL := /bin/bash
 # Testing running system
 
 # For testing a simple query on the system. Don't forget to `make seed` first.
-# curl --user "admin@example.com:gophers" http://localhost:3000/v1/users/token
+# curl --user "sales-admin@example.com:gophers" http://localhost:3000/v1/users/token
 # export TOKEN="COPY TOKEN STRING FROM LAST CALL"
 # curl -H "Authorization: Bearer ${TOKEN}" http://localhost:3000/v1/users/1/2
 #
@@ -17,8 +17,8 @@ SHELL := /bin/bash
 # expvarmon -ports=":3001" -endpoint="/metrics" -vars="build,requests,goroutines,errors,panics,mem:memstats.Alloc"
 #
 # To generate a private/public key PEM file.
-# openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
-# openssl rsa -pubout -in private.pem -out public.pem
+# openssl genpkey -algorithm RSA -out 54bb2165-71e1-41a6-af3e-7da4a0e1e2c1.pem -pkeyopt rsa_keygen_bits:2048
+# openssl rsa -pubout -in 54bb2165-71e1-41a6-af3e-7da4a0e1e2c1.pem -out public.pem
 # ./sales-admin genkey
 #
 # Testing coverage.
@@ -37,6 +37,9 @@ SHELL := /bin/bash
 
 run:
 	go run ./app/services/sales-api/main.go | go run ./app/tooling/logfmt/main.go
+
+admin:
+	go run ./app/tooling/sales-admin/main.go
 
 # Building containers
 
@@ -93,6 +96,13 @@ kind-update-apply: all kind-load kind-apply
 
 kind-describe:
 	kubectl describe pod -l app=sales
+
+
+# Running tests within the local computer
+
+test:
+	go test ./... -count=1
+	staticcheck -checks=all ./...
 
 
 # Module support

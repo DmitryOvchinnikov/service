@@ -38,7 +38,6 @@ func main() {
 
 func run(log *zap.SugaredLogger) error {
 
-	// =========================================================================
 	// Configuration
 
 	cfg := struct {
@@ -74,7 +73,10 @@ func run(log *zap.SugaredLogger) error {
 	}
 	log.Infow("startup", "config", out)
 
+<<<<<<< HEAD
 	// =========================================================================
+=======
+>>>>>>> 8-JSON-Web-Token
 	// Commands
 
 	dbConfig := database.Config{

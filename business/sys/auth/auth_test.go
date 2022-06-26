@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/dmitryovchinnikov/service/business/sys/auth"
-	"github.com/golang-jwt/jwt/v4"
 )
 
 // Success and failure markers.
@@ -73,8 +72,6 @@ func TestAuth(t *testing.T) {
 		}
 	}
 }
-
-// =============================================================================
 
 type keyStore struct {
 	pk *rsa.PrivateKey

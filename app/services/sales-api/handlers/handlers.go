@@ -8,7 +8,8 @@ import (
 	"os"
 
 	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/debug/checkgrp"
-	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/v1/testgrp"
+	v1 "github.com/dmitryovchinnikov/service/app/services/sales-api/handlers/v1"
+	"github.com/dmitryovchinnikov/service/business/sys/auth"
 	"github.com/dmitryovchinnikov/service/business/web/v1/mid"
 	"github.com/dmitryovchinnikov/service/foundation/web"
 	"go.uber.org/zap"
@@ -30,7 +31,7 @@ import (
 type APIMuxConfig struct {
 	Shutdown chan os.Signal
 	Log      *zap.SugaredLogger
-	//Auth     *auth.Auth
+	Auth     *auth.Auth
 	//DB       *sqlx.DB
 }
 
@@ -61,17 +62,12 @@ func APIMux(cfg APIMuxConfig) *web.App {
 	//	app.Handle(http.MethodOptions, "", "/*", h, mid.Cors(opts.corsOrigin))
 	//}
 	//
-	//// Load the v1 routes.
-	//v1.Routes(app, v1.Config{
-	//	Log:  cfg.Log,
-	//	Auth: cfg.Auth,
-	//	DB:   cfg.DB,
-	//})
-	//
-	//return app
-
-	tgh := testgrp.Handlers{Log: cfg.Log}
-	app.Handle(http.MethodGet, "v1", "/test", tgh.Test)
+	// Load the v1 routes.
+	v1.Routes(app, v1.Config{
+		Log:  cfg.Log,
+		Auth: cfg.Auth,
+		//DB:   cfg.DB,
+	})
 
 <<<<<<< HEAD
 	h := func(w http.ResponseWriter, r *http.Request) {

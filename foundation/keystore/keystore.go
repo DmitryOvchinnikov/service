@@ -12,7 +12,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/golang-jwt/jwt/v4"
 )
 
 // KeyStore represents an in memory store implementation of the

@@ -28,7 +28,7 @@ func TestRead(t *testing.T) {
 			}
 			t.Logf("\t%s\tTest %d:\tShould be able to construct key store.", success, testID)
 
-			const keyID = "dbtest"
+			const keyID = "test"
 			pk, err := ks.PrivateKey(keyID)
 			if err != nil {
 				t.Fatalf("\t%s\tTest %d:\tShould be able to find key in store: %v", failed, testID, err)
