@@ -65,7 +65,7 @@ func (h Handlers) Update(ctx context.Context, w http.ResponseWriter, r *http.Req
 		}
 	}
 
-	// If you are not an admin and looking to update a product you don't own.
+	// If you are not an sales-admin and looking to update a product you don't own.
 	if !claims.Authorized(auth.RoleAdmin) && prd.UserID != claims.Subject {
 		return v1Web.NewRequestError(auth.ErrForbidden, http.StatusForbidden)
 	}

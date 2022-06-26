@@ -12,7 +12,7 @@
 /app/services/sales-api/sales-api
 /app/services/metrics/metrics
 /app/tooling/logfmt
-/app/tooling/sales-admin
+#/app/tooling/sales-admin
 
 # Test binary, built with `go test -c`
 *.test
@@ -21,8 +21,9 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
+/vendor/
 
 .idea
-
-
+!/zarf/keys/54bb2165-71e1-41a6-af3e-7da4a0e1e2c1.pem
+!/public.pem

@@ -41,7 +41,7 @@ func TestProducts(t *testing.T) {
 			Auth:     test.Auth,
 			DB:       test.DB,
 		}),
-		userToken: test.Token("admin@example.com", "gophers"),
+		userToken: test.Token("sales-admin@example.com", "gophers"),
 	}
 
 	t.Run("postProduct400", tests.postProduct400)
