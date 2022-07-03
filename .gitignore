@@ -1,3 +1,11 @@
+# Binaries
+app/services/sales-api/sales-api
+app/services/metrics/metrics
+app/tooling/logfmt
+app/tooling/sales-admin
+app/tooling/sales-admin/sales-admin
+app/tooling/sales-admin/logfmt
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -14,7 +22,20 @@
 /app/tooling/logfmt
 #/app/tooling/sales-admin
 
-# Test binary, built with `go test -c`
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+# Test binary, built with `go dbtest -c`
 *.test
 
 # Output of the go coverage tool, specifically when used with LiteIDE

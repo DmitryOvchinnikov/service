@@ -9,6 +9,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/dmitryovchinnikov/service/app/services/sales-api/handlers"
+	"github.com/dmitryovchinnikov/service/business/core/user"
+	"github.com/dmitryovchinnikov/service/business/data/dbtest"
+	"github.com/dmitryovchinnikov/service/business/sys/auth"
+	"github.com/dmitryovchinnikov/service/business/sys/validate"
+	v1Web "github.com/dmitryovchinnikov/service/business/web/v1"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 )
@@ -34,8 +40,8 @@ func TestUsers(t *testing.T) {
 		app: handlers.APIMux(handlers.APIMuxConfig{
 			Shutdown: shutdown,
 			Log:      test.Log,
-			Auth:     test.Auth,
-			DB:       test.DB,
+			//Auth:     test.Auth,
+			//DB:       test.DB,
 		}),
 		userToken:  test.Token("user@example.com", "gophers"),
 		adminToken: test.Token("admin@example.com", "gophers"),
@@ -388,7 +394,7 @@ func (ut *UserTests) putUser404(t *testing.T) {
 	}
 }
 
-// crudUser performs a complete test of CRUD against the api.
+// crudUser performs a complete dbtest of CRUD against the api.
 func (ut *UserTests) crudUser(t *testing.T) {
 	nu := ut.postUser201(t)
 	defer ut.deleteUser204(t, nu.ID)

@@ -69,7 +69,22 @@ func APIMux(cfg APIMuxConfig) *web.App {
 		//DB:   cfg.DB,
 	})
 
+<<<<<<< HEAD
+	h := func(w http.ResponseWriter, r *http.Request) {
+		status := struct {
+			Status string
+		}{
+			Status: "OK",
+		}
+		json.NewEncoder(w).Encode(status)
+	}
+
+	mux.Handle(http.MethodGet, "/dbtest", h)
+
+	return mux
+=======
 	return app
+>>>>>>> 7-Middleware
 }
 
 // DebugStandardLibraryMux registers all the debug routes from the standard library

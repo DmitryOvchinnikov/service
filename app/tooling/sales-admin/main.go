@@ -38,7 +38,7 @@ func main() {
 
 func run(log *zap.SugaredLogger) error {
 
-	// Configuration
+// Configuration
 
 	cfg := struct {
 		conf.Version
@@ -73,7 +73,7 @@ func run(log *zap.SugaredLogger) error {
 	}
 	log.Infow("startup", "config", out)
 
-	// Commands
+// Commands
 
 	dbConfig := database.Config{
 		User:       cfg.DB.User,

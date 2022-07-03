@@ -4,13 +4,25 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+<<<<<<< HEAD
+
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+=======
+>>>>>>> 7-Middleware
 )
 
 // Respond converts a Go value to JSON and sends it to the client.
 func Respond(ctx context.Context, w http.ResponseWriter, data interface{}, statusCode int) error {
+<<<<<<< HEAD
+	ctx, span := otel.GetTracerProvider().Tracer("").Start(ctx, "foundation.web.respond")
+	span.SetAttributes(attribute.Int("statusCode", statusCode))
+	defer span.End()
+=======
 	//ctx, span := otel.GetTracerProvider().Tracer("").Start(ctx, "foundation.web.respond")
 	//span.SetAttributes(attribute.Int("statusCode", statusCode))
 	//defer span.End()
+>>>>>>> 7-Middleware
 
 	// Set the status code for the request logger middleware.
 	SetStatusCode(ctx, statusCode)
