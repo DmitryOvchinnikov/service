@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/dmitryovchinnikov/service/business/sys/auth"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 // Success and failure markers.

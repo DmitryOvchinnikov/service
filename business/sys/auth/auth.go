@@ -5,6 +5,8 @@ import (
 	"crypto/rsa"
 	"errors"
 	"fmt"
+
+  "github.com/golang-jwt/jwt/v4"
 )
 
 // ErrForbidden is returned when a auth issue is identified.
