@@ -74,8 +74,6 @@ func TestAuth(t *testing.T) {
 	}
 }
 
-// =============================================================================
-
 type keyStore struct {
 	pk *rsa.PrivateKey
 }
