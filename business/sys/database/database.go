@@ -12,7 +12,7 @@ import (
 
 	"github.com/dmitryovchinnikov/service/foundation/web"
 	"github.com/jmoiron/sqlx"
-	"github.com/lib/pq" // calls init function.
+	_ "github.com/lib/pq" // calls init function.
 	"go.uber.org/zap"
 )
 
