@@ -9,12 +9,7 @@ import (
 	"time"
 
 	"github.com/dimfeld/httptreemux/v5"
-<<<<<<< HEAD
-	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
-	"go.opentelemetry.io/otel/trace"
-=======
 	"github.com/google/uuid"
->>>>>>> 7-Middleware
 )
 
 // A Handler is a type that handles a http request within our own little mini
@@ -26,10 +21,6 @@ type Handler func(ctx context.Context, w http.ResponseWriter, r *http.Request) e
 // data/logic on this App struct.
 type App struct {
 	mux      *httptreemux.ContextMux
-<<<<<<< HEAD
-	otmux    http.Handler
-=======
->>>>>>> 7-Middleware
 	shutdown chan os.Signal
 	mw       []Middleware
 }
@@ -37,21 +28,10 @@ type App struct {
 // NewApp creates an App value that handle a set of routes for the application.
 func NewApp(shutdown chan os.Signal, mw ...Middleware) *App {
 
-	// Create an OpenTelemetry HTTP Handler which wraps our router. This will start
-	// the initial span and annotate it with information about the request/response.
-	//
-	// This is configured to use the W3C TraceContext standard to set the remote
-	// parent if a client request includes the appropriate headers.
-	// https://w3c.github.io/trace-context/
-
 	mux := httptreemux.NewContextMux()
 
 	return &App{
 		mux:      mux,
-<<<<<<< HEAD
-		otmux:    otelhttp.NewHandler(mux, "request"),
-=======
->>>>>>> 7-Middleware
 		shutdown: shutdown,
 		mw:       mw,
 	}
@@ -68,11 +48,7 @@ func (a *App) SignalShutdown() {
 // tracing. The opentelemetry mux then calls the application mux to handle
 // application traffic. This was set up on line 44 in the NewApp function.
 func (a *App) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-<<<<<<< HEAD
-	a.otmux.ServeHTTP(w, r)
-=======
 	a.mux.ServeHTTP(w, r)
->>>>>>> 7-Middleware
 }
 
 // Handle sets a handler function for a given HTTP method and path pair
@@ -92,21 +68,10 @@ func (a *App) Handle(method string, group string, path string, handler Handler, 
 		// use it as a separate parameter.
 		ctx := r.Context()
 
-		// Capture the parent request span from the context.
-<<<<<<< HEAD
-		span := trace.SpanFromContext(ctx)
-=======
-		//span := trace.SpanFromContext(ctx)
->>>>>>> 7-Middleware
-
 		// Set the context with the required values to
 		// process the request.
 		v := Values{
-<<<<<<< HEAD
-			TraceID: span.SpanContext().TraceID().String(),
-=======
-			TraceID: uuid.New().String(), //span.SpanContext().TraceID().String(),
->>>>>>> 7-Middleware
+			TraceID: uuid.New().String(),
 			Now:     time.Now().UTC(),
 		}
 		ctx = context.WithValue(ctx, key, &v)

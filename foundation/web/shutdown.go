@@ -1,12 +1,6 @@
 package web
 
-<<<<<<< HEAD
 import "errors"
-=======
-import (
-	"errors"
-)
->>>>>>> 7-Middleware
 
 // shutdownError is a type used to help with the graceful termination of the service.
 type shutdownError struct {

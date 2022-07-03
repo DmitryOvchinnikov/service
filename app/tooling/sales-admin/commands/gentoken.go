@@ -10,6 +10,7 @@ import (
 	"github.com/dmitryovchinnikov/service/business/sys/auth"
 	"github.com/dmitryovchinnikov/service/business/sys/database"
 	"github.com/dmitryovchinnikov/service/foundation/keystore"
+	"github.com/golang-jwt/jwt/v4"
 	"go.uber.org/zap"
 )
 
