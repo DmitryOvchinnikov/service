@@ -29,9 +29,9 @@ type NewUser struct {
 
 // UpdateUser defines what information may be provided to modify an existing
 // User. All fields are optional so clients can send just the fields they want
-// changed. It uses pointer fields so we can differentiate between a field that
+// changed. It uses pointer fields, so we can differentiate between a field that
 // was not provided and a field that was provided as explicitly blank. Normally
-// we do not want to use pointers to basic types but we make exceptions around
+// we do not want to use pointers to basic types, but we make exceptions around
 // marshalling/unmarshalling.
 type UpdateUser struct {
 	Name            *string  `json:"name"`
@@ -40,8 +40,6 @@ type UpdateUser struct {
 	Password        *string  `json:"password"`
 	PasswordConfirm *string  `json:"password_confirm" validate:"omitempty,eqfield=Password"`
 }
-
-// =============================================================================
 
 func toUser(dbUsr db.User) User {
 	pu := (*User)(unsafe.Pointer(&dbUsr))

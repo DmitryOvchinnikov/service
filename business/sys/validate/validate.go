@@ -10,7 +10,7 @@ import (
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
-	en_translations "github.com/go-playground/validator/v10/translations/en"
+	entranslations "github.com/go-playground/validator/v10/translations/en"
 	"github.com/google/uuid"
 )
 
@@ -34,7 +34,9 @@ func init() {
 	translator, _ = ut.New(en.New(), en.New()).GetTranslator("en")
 
 	// Register the english error messages for use.
-	en_translations.RegisterDefaultTranslations(validate, translator)
+	if err := entranslations.RegisterDefaultTranslations(validate, translator); err != nil {
+		return
+	}
 
 	// Use JSON tag names for errors instead of Go struct names.
 	validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
