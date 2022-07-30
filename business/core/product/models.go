@@ -40,8 +40,6 @@ type UpdateProduct struct {
 	Quantity *int    `json:"quantity" validate:"omitempty,gte=1"`
 }
 
-// =============================================================================
-
 func toProduct(dbPrd db.Product) Product {
 	pu := (*Product)(unsafe.Pointer(&dbPrd))
 	return *pu

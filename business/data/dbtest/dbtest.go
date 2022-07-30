@@ -11,7 +11,6 @@ import (
 	"testing"
 	"time"
 
-	dbUser "github.com/dmitryovchinnikov/service/business/core/user/db"
 	"github.com/dmitryovchinnikov/service/business/data/dbschema"
 	"github.com/dmitryovchinnikov/service/business/sys/auth"
 	"github.com/dmitryovchinnikov/service/business/sys/database"
@@ -21,6 +20,8 @@ import (
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	dbUser "github.com/dmitryovchinnikov/service/business/core/user/db"
 )
 
 // Success and failure markers.
@@ -73,8 +74,6 @@ func NewUnit(t *testing.T, c *docker.Container, dbName string) (*zap.SugaredLogg
 		t.Fatalf("creating database %s: %v", dbName, err)
 	}
 	dbM.Close()
-
-	// =========================================================================
 
 	db, err := database.Open(database.Config{
 		User:       "postgres",

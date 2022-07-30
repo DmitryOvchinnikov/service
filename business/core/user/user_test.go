@@ -44,8 +44,8 @@ func TestUser(t *testing.T) {
 			now := time.Date(2018, time.October, 1, 0, 0, 0, 0, time.UTC)
 
 			nu := user.NewUser{
-				Name:            "Bill Kennedy",
-				Email:           "bill@ardanlabs.com",
+				Name:            "Dmitry Ovchinnikov",
+				Email:           "dmitry.v.ovchinnikov@gmail.com",
 				Roles:           []string{auth.RoleAdmin},
 				Password:        "gophers",
 				PasswordConfirm: "gophers",
@@ -69,8 +69,8 @@ func TestUser(t *testing.T) {
 			t.Logf("\t%s\tTest %d:\tShould get back the same user.", dbtest.Success, testID)
 
 			upd := user.UpdateUser{
-				Name:  dbtest.StringPointer("Jacob Walker"),
-				Email: dbtest.StringPointer("jacob@ardanlabs.com"),
+				Name:  dbtest.StringPointer("Helen Sorokina"),
+				Email: dbtest.StringPointer("hsorokina@yahoo.com"),
 			}
 
 			if err := core.Update(ctx, usr.ID, upd, now); err != nil {

@@ -44,7 +44,6 @@ func main() {
 
 func run(log *zap.SugaredLogger) error {
 
-	// =========================================================================
 	// GOMAXPROCS
 
 	// Want to see what maxprocs reports.
@@ -57,7 +56,6 @@ func run(log *zap.SugaredLogger) error {
 	}
 	log.Infow("startup", "GOMAXPROCS", runtime.GOMAXPROCS(0))
 
-	// =========================================================================
 	// Configuration
 
 	cfg := struct {
@@ -97,7 +95,6 @@ func run(log *zap.SugaredLogger) error {
 		return fmt.Errorf("parsing config: %w", err)
 	}
 
-	// =========================================================================
 	// App Starting
 
 	log.Infow("starting service", "version", build)
@@ -109,7 +106,6 @@ func run(log *zap.SugaredLogger) error {
 	}
 	log.Infow("startup", "config", out)
 
-	// =========================================================================
 	// Start Debug Service
 
 	log.Infow("startup", "status", "debug router started", "host", cfg.Web.DebugHost)
@@ -133,13 +129,11 @@ func run(log *zap.SugaredLogger) error {
 		}
 	}()
 
-	// =========================================================================
 	// Start expvar Service
 
 	exp := expvarsrv.New(log, cfg.Expvar.Host, cfg.Expvar.Route, cfg.Expvar.ReadTimeout, cfg.Expvar.WriteTimeout, cfg.Expvar.IdleTimeout)
 	defer exp.Stop(cfg.Expvar.ShutdownTimeout)
 
-	// =========================================================================
 	// Start collectors and publishers
 
 	// Initialize to allow for the collection of metrics.
@@ -159,7 +153,6 @@ func run(log *zap.SugaredLogger) error {
 	}
 	defer publish.Stop()
 
-	// =========================================================================
 	// Shutdown
 
 	// Make a channel to listen for an interrupt or terminate signal from the OS.

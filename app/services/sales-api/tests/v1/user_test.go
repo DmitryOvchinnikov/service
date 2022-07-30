@@ -60,7 +60,7 @@ func TestUsers(t *testing.T) {
 	t.Run("crudUsers", tests.crudUser)
 }
 
-// getToken401 ensures an unknown user can't generate a token.
+// getToken404 ensures an unknown user can't generate a token.
 func (ut *UserTests) getToken404(t *testing.T) {
 	r := httptest.NewRequest(http.MethodGet, "/v1/users/token", nil)
 	w := httptest.NewRecorder()
